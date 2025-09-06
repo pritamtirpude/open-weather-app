@@ -1,0 +1,38 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-weather-200: hsl(250, 6%, 84%);
+  --color-weather-300: hsl(240, 6%, 70%);
+  --color-weather-600: hsl(243, 23%, 30%);
+  --color-weather-700: hsl(243, 23%, 24%);
+  --color-weather-800: hsl(243, 27%, 20%);
+  --color-weather-900: hsl(243, 96%, 9%);
+  --color-weather-orange: hsl(28, 100%, 52%);
+  --color-weather-blue-500: hsl(233, 67%, 56%);
+  --color-weather-blue-700: hsl(248, 70%, 36%);
+
+  /* Font DM Sans */
+  --font-dm-sans: 'DM Sans', sans-serif;
+  --font-bricolage-grotesque: 'Bricolage Grotesque', sans-serif;
+}
+
+@font-face {
+  font-family: 'Bricolage Grotesque';
+  src: url('/fonts/Bricolage_Grotesque/BricolageGrotesque-VariableFont_opsz,wdth,wght.ttf')
+    format('truetype');
+  font-weight: 200 800;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'DM Sans';
+  src: url('/fonts/DM_Sans/DMSans-VariableFont_opsz,wght.ttf') format('truetype');
+  font-weight: 100 900;
+  font-display: swap;
+  font-style: normal;
+}
+
+body {
+  background-color: var(--color-weather-900);
+}
