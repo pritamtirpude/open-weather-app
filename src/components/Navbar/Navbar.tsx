@@ -1,9 +1,9 @@
 export default function Navbar() {
   return (
-    <header className="py-12">
+    <header>
       <nav className="flex items-center justify-between">
         <div>
-          <img src="/assets/images/logo.svg" alt="logo" />
+          <img src="/assets/images/logo.svg" alt="logo weather" />
         </div>
 
         <div>

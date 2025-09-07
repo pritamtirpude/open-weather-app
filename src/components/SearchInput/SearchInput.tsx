@@ -13,7 +13,7 @@ export default function SearchInput() {
           placeholder="Search for a place..."
         />
         <button
-          className="bg-weather-blue-500 focus:outline-weather-blue-700 text-weather-200 font-dm-sans cursor-pointer rounded-lg px-6 py-3 font-semibold focus:outline-2 focus:outline-offset-2"
+          className="bg-weather-blue-500 focus:outline-weather-blue-700 hover:bg-weather-blue-700 text-weather-200 font-dm-sans cursor-pointer rounded-lg px-6 py-3 font-semibold duration-150 focus:outline-2 focus:outline-offset-2"
           type="submit"
         >
           Search
