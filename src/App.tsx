@@ -1,11 +1,12 @@
-import { Navbar, SearchInput, Title } from './components';
+import { Navbar, SearchInput, Title, WeatherGrid } from './components';
 
 export default function App() {
   return (
-    <main className="min-h-screen lg:mx-auto lg:max-w-6xl">
+    <main className="flex min-h-screen flex-col justify-center lg:mx-auto lg:max-w-6xl">
       <Navbar />
       <Title />
       <SearchInput />
+      <WeatherGrid />
     </main>
   );
 }
