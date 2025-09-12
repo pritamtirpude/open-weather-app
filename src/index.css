@@ -13,7 +13,52 @@
 
   /* Font DM Sans */
   --font-dm-sans: 'DM Sans', sans-serif;
+  --text-dm-sans-preset-1: 96px;
+  --text-dm-sans-preset-1--line-height: 100%;
+  --text-dm-sans-preset-1--letter-spacing: -2px;
+  --text-dm-sans-preset-1--font-weight: 600;
+
+  --text-dm-sans-preset-2: 32px;
+  --text-dm-sans-preset-2--line-height: 100%;
+  --text-dm-sans-preset-2--letter-spacing: 0px;
+  --text-dm-sans-preset-2--font-weight: 300;
+
+  --text-dm-sans-preset-3: 28px;
+  --text-dm-sans-preset-3--line-height: 120%;
+  --text-dm-sans-preset-3--letter-spacing: 0px;
+  --text-dm-sans-preset-3--font-weight: 700;
+
+  --text-dm-sans-preset-4: 20px;
+  --text-dm-sans-preset-4--line-height: 120%;
+  --text-dm-sans-preset-4--letter-spacing: 0px;
+  --text-dm-sans-preset-4--font-weight: 600;
+
+  --text-dm-sans-preset-5: 20px;
+  --text-dm-sans-preset-5--line-height: 120%;
+  --text-dm-sans-preset-5--letter-spacing: 0px;
+  --text-dm-sans-preset-5--font-weight: 500;
+
+  --text-dm-sans-preset-6: 18px;
+  --text-dm-sans-preset-6--line-height: 120%;
+  --text-dm-sans-preset-6--letter-spacing: 0px;
+  --text-dm-sans-preset-6--font-weight: 500;
+
+  --text-dm-sans-preset-7: 16px;
+  --text-dm-sans-preset-7--line-height: 120%;
+  --text-dm-sans-preset-7--letter-spacing: 0px;
+  --text-dm-sans-preset-7--font-weight: 500;
+
+  --text-dm-sans-preset-8: 14px;
+  --text-dm-sans-preset-8--line-height: 120%;
+  --text-dm-sans-preset-8--letter-spacing: 0px;
+  --text-dm-sans-preset-8--font-weight: 500;
+
+  /* Font Bricolage Grotesque */
   --font-bricolage-grotesque: 'Bricolage Grotesque', sans-serif;
+  --text-bricolage-grotesque-preset-1: 52px;
+  --text-bricolage-grotesque-preset-1--line-height: 120%;
+  --text-bricolage-grotesque-preset-1--letter-spacing: 0px;
+  --text-bricolage-grotesque-preset-1--font-weight: 700;
 }
 
 @font-face {
