@@ -1,12 +1,12 @@
 export default function SearchInput() {
   return (
-    <div className="mx-auto mt-12 w-[656px] lg:mt-16">
+    <div className="mt-12 md:w-full lg:mx-auto lg:mt-16 lg:w-[656px]">
       <form
         onSubmit={(e) => e.preventDefault()}
         className="relative flex flex-col items-center gap-3 md:flex-row md:gap-4"
       >
         <img
-          className="absolute top-1/2 left-6 -translate-y-1/2 transform"
+          className="absolute top-7 left-6 -translate-y-1/2 transform md:top-1/2"
           src="/assets/images/icon-search.svg"
           alt="Search icon"
         />
