@@ -6,12 +6,14 @@ export function useWeatherParams() {
       latitude: parseAsString,
       longitude: parseAsString,
       search: parseAsString,
+      timezone: parseAsString,
     },
     {
       urlKeys: {
         latitude: 'lat',
         longitude: 'long',
         search: 'search',
+        timezone: 'tz',
       },
     },
   );

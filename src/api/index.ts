@@ -20,16 +20,16 @@ export const fetchSearch = async (search: string) => {
   return response.data;
 };
 
-export const fetchWeatherData = async (latitude: string, longitude: string) => {
+export const fetchWeatherData = async (latitude: number, longitude: number, timezone: string) => {
   const response = await weatherApi.get('', {
     params: {
       latitude,
       longitude,
-      current_weather: true,
-      hourly: 'temperature_2m,relative_humidity_2m,precipitation,weathercode,windspeed_10m',
-      daily:
-        'temperature_2m_max,temperature_2m_min,precipitation_sum,weathercode,windspeed_10m_max',
-      timezone: 'auto',
+      current:
+        'weather_code,precipitation,wind_speed_10m,relative_humidity_2m,apparent_temperature,temperature_2m',
+      hourly: 'temperature_2m,weather_code',
+      daily: 'temperature_2m_max,temperature_2m_min,weather_code',
+      timezone,
     },
   });
   return response.data;
