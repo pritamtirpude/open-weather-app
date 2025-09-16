@@ -1,5 +1,6 @@
 import type { SearchResult } from '../..';
 import { Spinner } from '../../components';
+import { useWeatherParams } from '../../hooks/useWeatherParams';
 import { useSearchStore } from '../../store/searchStore';
 
 type SearchResultsProps = {
@@ -10,8 +11,15 @@ export default function SearchResults({ isLoading }: SearchResultsProps) {
   const { searchResults, isSearching, setSelectedLocation, setIsSearching, clearResults } =
     useSearchStore();
 
+  const { setParams } = useWeatherParams();
+
   const handleResultClick = (result: SearchResult) => {
     setSelectedLocation(result);
+    setParams({
+      latitude: result.latitude.toString(),
+      longitude: result.longitude.toString(),
+      timezone: result.timezone,
+    });
     setIsSearching(false);
     clearResults();
   };
