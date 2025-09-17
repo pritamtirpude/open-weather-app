@@ -82,6 +82,10 @@ body {
   background-color: var(--color-weather-900);
 }
 
+.drop-shadow {
+  box-shadow: 0 8px 16px 0 rgba(2, 1, 44, 0.32);
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 12px;

@@ -1,15 +1,16 @@
 import { useQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
-import { useState } from 'react';
-import type { DailyForecast } from '../..';
+import type { DailyForecast, HourlyForecast } from '../..';
 import { fetchWeatherData } from '../../api';
+import { HourlyCard, WeekDayDropdown } from '../../components';
 import { useWeatherParams } from '../../hooks/useWeatherParams';
+import { useFilterStore } from '../../store/filterStore';
 import { useSearchStore } from '../../store/searchStore';
 import { getWeatherDescription, getWeatherIcon } from '../../utils/weatherIcons';
 import DailyForecastCard from '../DailyforecastCard/DailyForecastCard';
 
 export default function WeatherGrid() {
-  const [weekDay, setWeekDay] = useState(format(new Date(), 'EEEE'));
+  const { selectedDay } = useFilterStore();
 
   const { params } = useWeatherParams();
   const { selectedLocation } = useSearchStore();
@@ -42,7 +43,9 @@ export default function WeatherGrid() {
     };
   });
 
-  const filteredHourlyForecast = hourlyForecast?.filter((hour: any) => hour.day === weekDay);
+  const filteredHourlyForecast = hourlyForecast?.filter(
+    (hour: HourlyForecast) => hour.day === selectedDay,
+  );
 
   if (isLoading) {
     return <h2 className="text-2xl text-white">Loading...</h2>;
@@ -118,34 +121,12 @@ export default function WeatherGrid() {
       <div className="bg-weather-800 col-span-full h-full rounded-[20px] px-4 py-5 md:p-6 lg:col-start-3 lg:row-span-3 lg:row-start-1">
         <div className="flex w-full items-center justify-between">
           <h3 className="font-dm-sans text-dm-sans-preset-4 text-white">Hourly forecast</h3>
-          <div>
-            <h4 className="font-dm-sans text-dm-sans-preset-5 text-white">{weekDay}</h4>
-          </div>
+          <WeekDayDropdown />
         </div>
 
         <div className="scrollbar-hide mt-4 flex h-[620px] flex-col gap-4 overflow-y-auto">
-          {filteredHourlyForecast?.map((hour: any) => (
-            <div
-              key={hour.time}
-              className="bg-weather-700 border-weather-600 flex items-center justify-between rounded-lg border px-3 py-2.5"
-            >
-              <div className="flex items-center gap-2">
-                <img
-                  className="size-10"
-                  src={getWeatherIcon(hour?.weather_code)}
-                  alt={getWeatherDescription(hour?.weather_code)}
-                />
-                <span className="font-dm-sans text-dm-sans-preset-5 text-white">
-                  {format(hour?.time, 'h a')}
-                </span>
-              </div>
-
-              <div>
-                <span className="font-dm-sans text-dm-sans-preset-7 text-white">
-                  {hour?.temperature_2m}°
-                </span>
-              </div>
-            </div>
+          {filteredHourlyForecast?.map((hour: HourlyForecast) => (
+            <HourlyCard key={hour.time} hour={hour} />
           ))}
         </div>
       </div>

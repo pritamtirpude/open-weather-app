@@ -22,3 +22,10 @@ export type DailyForecast = {
   temperature_2m_min: number;
   weather_code: number;
 };
+
+export type HourlyForecast = {
+  time: string;
+  day: string;
+  temperature_2m: number;
+  weather_code: number;
+};
