@@ -1,7 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
+import { useEffect } from 'react';
 import type { DailyForecast, HourlyForecast } from '../..';
-import { fetchWeatherData } from '../../api';
+import { fetchSearch, fetchWeatherData } from '../../api';
 import { HourlyCard, WeekDayDropdown } from '../../components';
 import { useWeatherParams } from '../../hooks/useWeatherParams';
 import { useFilterStore } from '../../store/filterStore';
@@ -12,17 +13,61 @@ import DailyForecastCard from '../DailyforecastCard/DailyForecastCard';
 export default function WeatherGrid() {
   const { selectedDay } = useFilterStore();
 
-  const { params } = useWeatherParams();
-  const { selectedLocation } = useSearchStore();
+  const { params, setParams } = useWeatherParams();
+  const { selectedLocation, setSelectedLocation } = useSearchStore();
+
+  // Query for search results based on search param
+  const { data: searchData } = useQuery({
+    queryKey: ['search', params.search],
+    queryFn: () => fetchSearch(params.search!),
+    enabled: !!params.search && !selectedLocation,
+  });
+
+  // Handle search results
+  useEffect(() => {
+    if (searchData?.results && searchData.results.length > 0 && !selectedLocation) {
+      const firstResult = searchData.results[0];
+      setSelectedLocation(firstResult);
+      setParams({
+        latitude: firstResult.latitude.toFixed(4),
+        longitude: firstResult.longitude.toFixed(4),
+        timezone: firstResult.timezone || 'auto',
+      });
+    }
+  }, [searchData, selectedLocation, setSelectedLocation, setParams]);
+
+  // Get geolocation if no search param and no location
+  useEffect(() => {
+    if (!params.search && !params.latitude && !params.longitude && !selectedLocation) {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            setParams({
+              latitude: position.coords.latitude.toFixed(4),
+              longitude: position.coords.longitude.toFixed(4),
+              timezone: 'auto',
+            });
+          },
+          () => {
+            return;
+          },
+        );
+      }
+    }
+  }, [params.search, params.latitude, params.longitude, selectedLocation, setParams]);
+
   const { data: weatherData, isLoading } = useQuery({
     queryKey: ['weatherData', params],
     queryFn: () =>
       fetchWeatherData(
-        selectedLocation!.latitude,
-        selectedLocation!.longitude,
-        selectedLocation!.timezone,
+        Number(selectedLocation?.latitude ?? params.latitude),
+        Number(selectedLocation?.longitude ?? params.longitude),
+        selectedLocation?.timezone ?? params.timezone ?? 'GMT',
+        params?.temperatureUnit || 'celsius',
+        params?.windSpeedUnit || 'kmh',
+        params?.precipitationUnit || 'mm',
       ),
-    enabled: !!params.latitude && !!params.longitude && !!params.timezone,
+    enabled: !!(params.latitude && params.longitude && params.timezone),
   });
 
   const dailyForecast: DailyForecast[] =
@@ -60,9 +105,11 @@ export default function WeatherGrid() {
       <div className="col-span-full lg:col-span-2">
         <div className="flex h-[286px] flex-col items-center justify-center gap-4 rounded-[20px] bg-[url(/assets/images/bg-today-small.svg)] bg-cover bg-center bg-no-repeat px-6 py-10 md:flex-row md:justify-between md:gap-0 md:bg-[url(/assets/images/bg-today-large.svg)] md:px-6 md:py-0">
           <div>
-            <h1 className="font-dm-sans text-dm-sans-preset-3 text-white">
-              {selectedLocation?.name}, {selectedLocation?.country}
-            </h1>
+            {selectedLocation && (
+              <h1 className="font-dm-sans text-dm-sans-preset-3 text-white">
+                {selectedLocation?.name}, {selectedLocation?.country}
+              </h1>
+            )}
             <span className="font-dm-sans text-dm-sans-preset-6 text-white/80">
               {format(new Date(), 'EEEE, MMM d, yyyy')}
             </span>
@@ -97,14 +144,16 @@ export default function WeatherGrid() {
         <div className="bg-weather-800 border-weather-600 flex flex-col gap-y-3 rounded-xl border p-5">
           <h2 className="font-dm-sans text-weather-200 text-dm-sans-preset-6">Wind</h2>
           <span className="font-dm-sans text-dm-sans-preset-2 text-white">
-            {Math.round(weatherData?.current?.wind_speed_10m ?? 0)} mph
+            {Math.round(weatherData?.current?.wind_speed_10m ?? 0)}{' '}
+            {weatherData?.current_units?.wind_speed_10m?.replace('/', '')}
           </span>
         </div>
 
         <div className="bg-weather-800 border-weather-600 flex flex-col gap-y-3 rounded-xl border p-5">
           <h2 className="font-dm-sans text-weather-200 text-dm-sans-preset-6">Precipitation</h2>
           <span className="font-dm-sans text-dm-sans-preset-2 text-white">
-            {weatherData?.current?.precipitation} in
+            {weatherData?.current?.precipitation}{' '}
+            {weatherData?.current_units?.precipitation?.replace('inch', 'in')}
           </span>
         </div>
       </div>

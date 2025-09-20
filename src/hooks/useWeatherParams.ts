@@ -7,6 +7,9 @@ export function useWeatherParams() {
       longitude: parseAsString,
       search: parseAsString,
       timezone: parseAsString,
+      temperatureUnit: parseAsString,
+      windSpeedUnit: parseAsString,
+      precipitationUnit: parseAsString,
     },
     {
       urlKeys: {
@@ -14,6 +17,9 @@ export function useWeatherParams() {
         longitude: 'long',
         search: 'search',
         timezone: 'tz',
+        temperatureUnit: 'tempUnit',
+        windSpeedUnit: 'windUnit',
+        precipitationUnit: 'precipUnit',
       },
     },
   );
