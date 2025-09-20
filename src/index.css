@@ -80,6 +80,7 @@
 
 body {
   background-color: var(--color-weather-900);
+  overflow-x: hidden;
 }
 
 .drop-shadow {

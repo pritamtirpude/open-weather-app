@@ -1,3 +1,5 @@
+import { UnitsDropdown } from '../../components';
+
 export default function Navbar() {
   return (
     <header>
@@ -6,9 +8,7 @@ export default function Navbar() {
           <img src="/assets/images/logo.svg" alt="logo weather" />
         </div>
 
-        <div>
-          <h2 className="text-xl text-white">Units</h2>
-        </div>
+        <UnitsDropdown />
       </nav>
     </header>
   );
