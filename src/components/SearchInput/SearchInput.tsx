@@ -1,27 +1,41 @@
 import { useMutation } from '@tanstack/react-query';
 import type React from 'react';
-import { useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 import { fetchSearch } from '../../api';
 import { SearchResults } from '../../components';
-import { useWeatherParams } from '../../hooks/useWeatherParams';
 import { useSearchStore } from '../../store/searchStore';
 
 export default function SearchInput() {
-  const { params, setParams } = useWeatherParams();
-  const [searchInput, setSearchInput] = useState(params.search || '');
+  const {
+    searchInput,
+    setSearchInput,
+    setSearchResults,
+    setIsSearching,
+    setSelectedLocation,
+    resetSearchState,
+  } = useSearchStore();
 
-  const { setSearchResults, setIsSearching } = useSearchStore();
-
-  const handleSearch = useDebouncedCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    setParams({ search: event.target.value });
+  const handleSearch = useDebouncedCallback((value: string) => {
+    if (value.trim()) {
+      setIsSearching(true);
+      searchMutation.mutate(value.trim());
+    } else {
+      // Reset search state when input is empty
+      resetSearchState();
+    }
   }, 800);
 
   const searchMutation = useMutation({
     mutationFn: fetchSearch,
     onSuccess: (data) => {
-      setSearchResults(data.results || []);
-      setIsSearching(false);
+      if (data?.results?.length > 0) {
+        setSearchResults(data.results || []);
+        setIsSearching(false);
+      } else {
+        setSearchResults([]);
+        setSelectedLocation(null);
+        setIsSearching(false);
+      }
     },
     onError: (error) => {
       console.error('Search error:', error);
@@ -41,7 +55,7 @@ export default function SearchInput() {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setSearchInput(value);
-    handleSearch(event);
+    handleSearch(value);
   };
 
   return (
