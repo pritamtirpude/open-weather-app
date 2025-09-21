@@ -5,17 +5,15 @@ export function useWeatherParams() {
     {
       latitude: parseAsString,
       longitude: parseAsString,
-      search: parseAsString,
       timezone: parseAsString,
-      temperatureUnit: parseAsString,
-      windSpeedUnit: parseAsString,
-      precipitationUnit: parseAsString,
+      temperatureUnit: parseAsString.withDefault('celsius'),
+      windSpeedUnit: parseAsString.withDefault('kmh'),
+      precipitationUnit: parseAsString.withDefault('mm'),
     },
     {
       urlKeys: {
         latitude: 'lat',
         longitude: 'long',
-        search: 'search',
         timezone: 'tz',
         temperatureUnit: 'tempUnit',
         windSpeedUnit: 'windUnit',

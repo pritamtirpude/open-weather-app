@@ -14,7 +14,7 @@ export type SearchResult = {
   admin2?: string;
   admin3?: string;
   admin4?: string;
-};
+} | null;
 
 export type DailyForecast = {
   time: string;

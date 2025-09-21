@@ -2,8 +2,8 @@ import { useQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { useEffect } from 'react';
 import type { DailyForecast, HourlyForecast } from '../..';
-import { fetchSearch, fetchWeatherData } from '../../api';
-import { HourlyCard, WeekDayDropdown } from '../../components';
+import { fetchWeatherData } from '../../api';
+import { HourlyCard, LoadingSkeleton, WeekDayDropdown } from '../../components';
 import { useWeatherParams } from '../../hooks/useWeatherParams';
 import { useFilterStore } from '../../store/filterStore';
 import { useSearchStore } from '../../store/searchStore';
@@ -14,31 +14,12 @@ export default function WeatherGrid() {
   const { selectedDay } = useFilterStore();
 
   const { params, setParams } = useWeatherParams();
-  const { selectedLocation, setSelectedLocation } = useSearchStore();
+  const { selectedLocation, searchResults, searchInput, hasSearched, isSearching } =
+    useSearchStore();
 
-  // Query for search results based on search param
-  const { data: searchData } = useQuery({
-    queryKey: ['search', params.search],
-    queryFn: () => fetchSearch(params.search!),
-    enabled: !!params.search && !selectedLocation,
-  });
-
-  // Handle search results
+  // Get geolocation if no location params and no selected location
   useEffect(() => {
-    if (searchData?.results && searchData.results.length > 0 && !selectedLocation) {
-      const firstResult = searchData.results[0];
-      setSelectedLocation(firstResult);
-      setParams({
-        latitude: firstResult.latitude.toFixed(4),
-        longitude: firstResult.longitude.toFixed(4),
-        timezone: firstResult.timezone || 'auto',
-      });
-    }
-  }, [searchData, selectedLocation, setSelectedLocation, setParams]);
-
-  // Get geolocation if no search param and no location
-  useEffect(() => {
-    if (!params.search && !params.latitude && !params.longitude && !selectedLocation) {
+    if (!params.latitude && !params.longitude && !selectedLocation) {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
@@ -54,7 +35,7 @@ export default function WeatherGrid() {
         );
       }
     }
-  }, [params.search, params.latitude, params.longitude, selectedLocation, setParams]);
+  }, [params.latitude, params.longitude, selectedLocation, setParams]);
 
   const { data: weatherData, isLoading } = useQuery({
     queryKey: ['weatherData', params],
@@ -93,7 +74,17 @@ export default function WeatherGrid() {
   );
 
   if (isLoading) {
-    return <h2 className="text-2xl text-white">Loading...</h2>;
+    return <LoadingSkeleton />;
+  }
+
+  if (hasSearched && searchResults.length === 0 && !isSearching && !selectedLocation) {
+    return (
+      <div className="mt-12 flex justify-center">
+        <h1 className="font-dm-sans text-dm-sans-preset-4 md:text-dm-sans-preset-3 text-white">
+          No results found for "{searchInput}"
+        </h1>
+      </div>
+    );
   }
 
   if (Object.keys(weatherData || {}).length === 0) {
@@ -104,10 +95,14 @@ export default function WeatherGrid() {
     <section className="mt-8 grid grid-cols-3 gap-8 lg:mt-12">
       <div className="col-span-full lg:col-span-2">
         <div className="flex h-[286px] flex-col items-center justify-center gap-4 rounded-[20px] bg-[url(/assets/images/bg-today-small.svg)] bg-cover bg-center bg-no-repeat px-6 py-10 md:flex-row md:justify-between md:gap-0 md:bg-[url(/assets/images/bg-today-large.svg)] md:px-6 md:py-0">
-          <div>
-            {selectedLocation && (
+          <div className="flex flex-col items-center justify-center md:items-start md:justify-start">
+            {selectedLocation ? (
               <h1 className="font-dm-sans text-dm-sans-preset-3 text-white">
                 {selectedLocation?.name}, {selectedLocation?.country}
+              </h1>
+            ) : (
+              <h1 className="font-dm-sans text-dm-sans-preset-3 text-center text-white">
+                Today's Weather
               </h1>
             )}
             <span className="font-dm-sans text-dm-sans-preset-6 text-white/80">
@@ -127,21 +122,21 @@ export default function WeatherGrid() {
         </div>
       </div>
       <div className="col-span-full grid size-full grid-cols-2 gap-6 md:grid-cols-4 lg:col-span-2">
-        <div className="bg-weather-800 border-weather-600 flex flex-col gap-y-3 rounded-xl border p-5">
+        <div className="bg-weather-800 border-weather-600 flex flex-col justify-between gap-y-3 rounded-xl border p-5">
           <h2 className="font-dm-sans text-weather-200 text-dm-sans-preset-6">Feels Like</h2>
           <span className="font-dm-sans text-dm-sans-preset-2 text-white">
             {Math.round(weatherData?.current?.apparent_temperature ?? 0)}°
           </span>
         </div>
 
-        <div className="bg-weather-800 border-weather-600 flex flex-col gap-y-3 rounded-xl border p-5">
+        <div className="bg-weather-800 border-weather-600 flex flex-col justify-between gap-y-3 rounded-xl border p-5">
           <h2 className="font-dm-sans text-weather-200 text-dm-sans-preset-6">Humidity</h2>
           <span className="font-dm-sans text-dm-sans-preset-2 text-white">
-            {weatherData?.current?.relative_humidity_2m}%
+            {weatherData?.current?.relative_humidity_2m ?? 0}%
           </span>
         </div>
 
-        <div className="bg-weather-800 border-weather-600 flex flex-col gap-y-3 rounded-xl border p-5">
+        <div className="bg-weather-800 border-weather-600 flex flex-col justify-between gap-y-3 rounded-xl border p-5">
           <h2 className="font-dm-sans text-weather-200 text-dm-sans-preset-6">Wind</h2>
           <span className="font-dm-sans text-dm-sans-preset-2 text-white">
             {Math.round(weatherData?.current?.wind_speed_10m ?? 0)}{' '}
@@ -149,15 +144,15 @@ export default function WeatherGrid() {
           </span>
         </div>
 
-        <div className="bg-weather-800 border-weather-600 flex flex-col gap-y-3 rounded-xl border p-5">
+        <div className="bg-weather-800 border-weather-600 flex flex-col justify-between gap-y-3 rounded-xl border p-5">
           <h2 className="font-dm-sans text-weather-200 text-dm-sans-preset-6">Precipitation</h2>
           <span className="font-dm-sans text-dm-sans-preset-2 text-white">
-            {weatherData?.current?.precipitation}{' '}
+            {weatherData?.current?.precipitation ?? 0}{' '}
             {weatherData?.current_units?.precipitation?.replace('inch', 'in')}
           </span>
         </div>
       </div>
-      <div className="col-span-full col-start-1 lg:col-span-2 lg:mt-12">
+      <div className="col-span-full col-start-1 place-content-end lg:col-span-2">
         <h2 className="font-dm-sans text-dm-sans-preset-4 text-white">Daily forecast</h2>
 
         <div className="mt-5 grid grid-cols-3 gap-4 md:flex md:items-center">

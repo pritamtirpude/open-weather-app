@@ -7,12 +7,17 @@ interface SearchStore {
   // Selected location state
   selectedLocation: SearchResult | null;
   isSearching: boolean;
+  hasSearched: boolean; // Track if a search was actually performed
+  searchInput: string; // Add search input to store
   // Actions
   setSearchResults: (results: SearchResult[]) => void;
-  setSelectedLocation: (location: SearchResult) => void;
+  setSelectedLocation: (location: SearchResult | null) => void;
   setIsSearching: (isSearching: boolean) => void;
+  setHasSearched: (hasSearched: boolean) => void;
+  setSearchInput: (input: string) => void;
   clearResults: () => void;
   clearSelectedLocation: () => void;
+  resetSearchState: () => void;
 }
 
 export const useSearchStore = create<SearchStore>((set) => ({
@@ -20,11 +25,14 @@ export const useSearchStore = create<SearchStore>((set) => ({
   searchResults: [],
   selectedLocation: null,
   isSearching: false,
+  hasSearched: false,
+  searchInput: '',
 
   // Actions
   setSearchResults: (results) =>
     set({
       searchResults: results,
+      hasSearched: true, // Mark that a search was performed
     }),
 
   setSelectedLocation(location) {
@@ -36,10 +44,28 @@ export const useSearchStore = create<SearchStore>((set) => ({
       isSearching,
     }),
 
+  setHasSearched: (hasSearched: boolean) =>
+    set({
+      hasSearched,
+    }),
+
+  setSearchInput: (input: string) =>
+    set({
+      searchInput: input,
+    }),
+
   clearResults: () =>
     set({
       searchResults: [],
     }),
 
   clearSelectedLocation: () => set({ selectedLocation: null }),
+
+  resetSearchState: () =>
+    set({
+      searchResults: [],
+      isSearching: false,
+      hasSearched: false,
+      searchInput: '',
+    }),
 }));
