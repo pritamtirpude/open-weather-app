@@ -1,3 +1,5 @@
+import APIErrorMessage from './APIErrorMessage/APIErrorMessage';
+import CurrentWeatherCard from './CurrentWeatherCard/CurrentWeatherCard';
 import DailyForecastCard from './DailyforecastCard/DailyForecastCard';
 import HourlyCard from './HourlyCard/HourlyCard';
 import LoadingSkeleton from './LoadingSkeleton/LoadingSkeleton';
@@ -11,6 +13,8 @@ import WeatherGrid from './WeatherGrid/WeatherGrid';
 import WeekDayDropdown from './WeekDayDropdown/WeekDayDropdown';
 
 export {
+  APIErrorMessage,
+  CurrentWeatherCard,
   DailyForecastCard,
   HourlyCard,
   LoadingSkeleton,

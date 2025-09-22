@@ -1,4 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
+import { motion } from 'motion/react';
 import type React from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 import { fetchSearch } from '../../api';
@@ -78,13 +79,14 @@ export default function SearchInput() {
           type="text"
           placeholder="Search for a place..."
         />
-        <button
+        <motion.button
+          whileTap={{ scale: 0.95 }}
           type="submit"
           disabled={searchMutation.isPending}
           className="bg-weather-blue-500 focus:outline-weather-blue-700 hover:bg-weather-blue-700 font-dm-sans w-full cursor-pointer rounded-xl px-6 py-4 font-semibold text-white duration-150 focus:outline-2 focus:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:w-auto"
         >
           Search
-        </button>
+        </motion.button>
       </form>
 
       <SearchResults isLoading={searchMutation.isPending} />

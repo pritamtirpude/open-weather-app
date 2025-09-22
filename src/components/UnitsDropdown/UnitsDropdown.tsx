@@ -6,8 +6,10 @@ import { cn } from '../../utils';
 import { unitsList } from '../../utils/unitsList';
 
 export default function UnitsDropdown() {
+  const [units, setUnits] = useState<'metric' | 'imperial'>('metric');
   const [isOpen, setIsOpen] = useState(false);
   const { setParams, params } = useWeatherParams();
+
   const dropdownRef = useClickOutside(() => setIsOpen(false)) as React.RefObject<HTMLDivElement>;
 
   return (
@@ -36,17 +38,27 @@ export default function UnitsDropdown() {
             className="bg-weather-800 border-weather-600 absolute top-14 right-0 z-40 h-auto w-[214px] transform rounded-xl border px-2 py-1.5 drop-shadow will-change-transform"
           >
             <div
-              onClick={() =>
-                setParams({
-                  temperatureUnit: 'fahrenheit',
-                  windSpeedUnit: 'mph',
-                  precipitationUnit: 'inch',
-                })
-              }
+              onClick={() => {
+                if (units === 'imperial') {
+                  setUnits('metric');
+                  setParams({
+                    temperatureUnit: 'celsius',
+                    windSpeedUnit: 'kmh',
+                    precipitationUnit: 'mm',
+                  });
+                } else {
+                  setUnits('imperial');
+                  setParams({
+                    temperatureUnit: 'fahrenheit',
+                    windSpeedUnit: 'mph',
+                    precipitationUnit: 'inch',
+                  });
+                }
+              }}
               className="hover:bg-weather-700 rounded-lg px-2 py-2.5 transition-all duration-150"
             >
-              <span className="font-dm-sans text-dm-sans-preset-7 text-white">
-                Switch to imperial
+              <span className="font-dm-sans text-dm-sans-preset-7 text-white capitalize">
+                {units === 'imperial' ? 'Switch to metric' : 'Switch to imperial'}
               </span>
             </div>
 
