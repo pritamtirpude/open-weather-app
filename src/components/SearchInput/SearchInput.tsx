@@ -76,7 +76,7 @@ export default function SearchInput() {
           value={searchInput}
           onChange={handleInputChange}
           className="bg-weather-700 text-weather-200 focus:outline-weather-200 placeholder:text-weather-200 font-dm-sans w-full rounded-xl px-14 py-4 focus:outline-2 focus:outline-offset-2"
-          type="text"
+          type="search"
           placeholder="Search for a place..."
         />
         <motion.button

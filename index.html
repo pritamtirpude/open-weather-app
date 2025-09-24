@@ -1,13 +1,79 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React + TS</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/favicon.ico" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+  <!-- Primary Meta Tags -->
+  <title>SkyWatch - Real-Time Weather Updates & Forecasts</title>
+  <meta name="title" content="SkyWatch - Real-Time Weather Updates & Forecasts" />
+  <meta name="description"
+    content="Get accurate weather forecasts and real-time updates with SkyWatch. Check current conditions, hourly forecasts, and weekly weather predictions with automatic location detection." />
+  <meta name="keywords"
+    content="weather forecast, real-time weather, weather updates, weather app, current weather, hourly forecast, weekly forecast, weather conditions, temperature, precipitation, wind speed" />
+  <meta name="author" content="SkyWatch Weather App" />
+  <meta name="robots" content="index, follow" />
+  <meta name="language" content="English" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://skywatch-weather.vercel.app/" />
+  <meta property="og:title" content="SkyWatch - Real-Time Weather Updates & Forecasts" />
+  <meta property="og:description"
+    content="Get accurate weather forecasts and real-time updates with SkyWatch. Check current conditions, hourly forecasts, and weekly weather predictions." />
+  <meta property="og:image" content="/assets/images/bg-today-large.svg" />
+  <meta property="og:image:alt" content="Weather forecast dashboard with current conditions" />
+  <meta property="og:site_name" content="SkyWatch Weather App" />
+  <meta property="og:locale" content="en_US" />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://skywatch-weather.vercel.app/" />
+  <meta property="twitter:title" content="SkyWatch - Real-Time Weather Updates & Forecasts" />
+  <meta property="twitter:description"
+    content="Get accurate weather forecasts and real-time updates with SkyWatch. Check current conditions, hourly forecasts, and weekly weather predictions." />
+  <meta property="twitter:image" content="/assets/images/bg-today-large.svg" />
+  <meta property="twitter:image:alt" content="Weather forecast dashboard with current conditions" />
+
+  <!-- Additional SEO Tags -->
+  <meta name="theme-color" content="#03012d" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="SkyWatch" />
+
+  <!-- Structured Data for Weather Website -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "SkyWatch Weather App",
+    "description": "Get accurate weather forecasts and real-time updates with automatic location detection.",
+    "url": "https://skywatch-weather.vercel.app/",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://skywatch-weather.vercel.app/?location={search_term_string}",
+      "query-input": "required name=search_term_string"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "SkyWatch Weather App",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://skywatch-weather.vercel.app/assets/images/logo.svg"
+      }
+    }
+  }
+  </script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+
 </html>
