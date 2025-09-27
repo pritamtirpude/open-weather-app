@@ -14,11 +14,12 @@ export default function UnitsDropdown() {
 
   return (
     <div
+      title="Units"
       ref={dropdownRef}
       onClick={() => setIsOpen((prev) => !prev)}
       tabIndex={0}
       className={cn(
-        'bg-weather-800 relative cursor-pointer rounded-lg px-4 py-3.5 transition-all duration-150 focus:outline-2 focus:outline-offset-2 focus:outline-white',
+        'bg-weather-800 relative cursor-pointer rounded-lg p-2.5 transition-all duration-150 focus:outline-2 focus:outline-offset-2 focus:outline-white md:px-4 md:py-3.5',
         !isOpen && 'hover:bg-weather-700',
       )}
     >

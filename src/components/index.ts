@@ -1,6 +1,7 @@
 import APIErrorMessage from './APIErrorMessage/APIErrorMessage';
 import CurrentWeatherCard from './CurrentWeatherCard/CurrentWeatherCard';
 import DailyForecastCard from './DailyforecastCard/DailyForecastCard';
+import FavoriteModal from './FavoriteModal/FavoriteModal';
 import HourlyCard from './HourlyCard/HourlyCard';
 import LoadingSkeleton from './LoadingSkeleton/LoadingSkeleton';
 import Navbar from './Navbar/Navbar';
@@ -16,6 +17,7 @@ export {
   APIErrorMessage,
   CurrentWeatherCard,
   DailyForecastCard,
+  FavoriteModal,
   HourlyCard,
   LoadingSkeleton,
   Navbar,

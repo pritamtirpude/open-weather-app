@@ -87,3 +87,15 @@ export type WeatherApiResponse = {
     weather_code: number[];
   };
 };
+
+// Minimal favorite location schema used by IndexedDB favorites table
+export type FavoriteLocation = {
+  id: number;
+  name: string;
+  latitude: number;
+  longitude: number;
+  country: string;
+  country_code: string;
+  admin1?: string;
+  timezone: string;
+};
