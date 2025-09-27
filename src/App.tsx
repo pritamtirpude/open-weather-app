@@ -18,7 +18,7 @@ export default function App() {
             setParams({
               latitude: position.coords.latitude.toFixed(4),
               longitude: position.coords.longitude.toFixed(4),
-              timezone: 'auto',
+              timezone: 'GMT',
             });
           },
           () => {
@@ -38,9 +38,9 @@ export default function App() {
     queryKey: ['weatherData', params],
     queryFn: () =>
       fetchWeatherData(
-        Number(selectedLocation?.latitude ?? params.latitude),
-        Number(selectedLocation?.longitude ?? params.longitude),
-        selectedLocation?.timezone ?? params.timezone ?? 'GMT',
+        Number(params.latitude),
+        Number(params.longitude),
+        params.timezone ?? 'GMT',
         params?.temperatureUnit || 'celsius',
         params?.windSpeedUnit || 'kmh',
         params?.precipitationUnit || 'mm',
