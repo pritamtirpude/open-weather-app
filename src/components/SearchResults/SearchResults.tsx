@@ -1,5 +1,6 @@
 import { useLiveQuery } from 'dexie-react-hooks';
 import { Star } from 'lucide-react';
+import { motion } from 'motion/react';
 import { CircleFlag } from 'react-circle-flags';
 import type { SearchResult } from '../..';
 import { Spinner } from '../../components';
@@ -45,7 +46,11 @@ export default function SearchResults({ isLoading }: SearchResultsProps) {
 
   if (searchResults.length > 0 && !isSearching && !isLoading) {
     return (
-      <div className="bg-weather-800 scrollbar-hide border-weather-700 absolute top-12 mt-3.5 h-60 w-full overflow-y-auto rounded-xl p-2">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="bg-weather-800 scrollbar-hide border-weather-700 absolute top-12 mt-3.5 h-60 w-full overflow-y-auto rounded-xl p-2"
+      >
         <ul className="flex flex-col gap-1">
           {searchResults.map((result) => {
             if (!result) return null;
@@ -96,7 +101,7 @@ export default function SearchResults({ isLoading }: SearchResultsProps) {
             );
           })}
         </ul>
-      </div>
+      </motion.div>
     );
   }
 
