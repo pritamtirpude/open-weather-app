@@ -59,6 +59,32 @@
   --text-bricolage-grotesque-preset-1--line-height: 120%;
   --text-bricolage-grotesque-preset-1--letter-spacing: 0px;
   --text-bricolage-grotesque-preset-1--font-weight: 700;
+
+  --animate-bg-drift: bg-drift 10s linear infinite;
+  --animate-bg-drift-y: bg-drift-y 10s linear infinite;
+
+  @keyframes bg-drift {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  @keyframes bg-drift-y {
+    0% {
+      background-position: 50% 0%;
+    }
+    50% {
+      background-position: 50% 100%;
+    }
+    100% {
+      background-position: 50% 0%;
+    }
+  }
 }
 
 @font-face {
@@ -81,6 +107,14 @@
 body {
   background-color: var(--color-weather-900);
   overflow-x: hidden;
+}
+
+/* Background drift utilities */
+.bg-drift {
+  animation: var(--animate-bg-drift);
+}
+.bg-drift-y {
+  animation: var(--animate-bg-drift-y);
 }
 
 .drop-shadow {

@@ -24,7 +24,8 @@ export default function HourlyCard({ hour, i }: HourlyCardProps) {
       className="bg-weather-700 border-weather-600 flex items-center justify-between rounded-lg border px-3 py-2.5"
     >
       <div className="flex items-center gap-2">
-        <img
+        <motion.img
+          animate={{ scale: [1, 0.9, 1], transition: { duration: 5, repeat: Infinity } }}
           className="size-10"
           src={getWeatherIcon(hour?.weather_code)}
           alt={getWeatherDescription(hour?.weather_code)}

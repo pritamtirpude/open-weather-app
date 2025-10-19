@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { motion } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 import type React from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 import { fetchSearch } from '../../api';
@@ -14,6 +14,7 @@ export default function SearchInput() {
     setIsSearching,
     setSelectedLocation,
     resetSearchState,
+    searchResults,
   } = useSearchStore();
 
   const handleSearch = useDebouncedCallback((value: string) => {
@@ -89,7 +90,9 @@ export default function SearchInput() {
         </motion.button>
       </form>
 
-      <SearchResults isLoading={searchMutation.isPending} />
+      <AnimatePresence>
+        {searchResults.length > 0 && <SearchResults isLoading={searchMutation.isPending} />}
+      </AnimatePresence>
     </div>
   );
 }

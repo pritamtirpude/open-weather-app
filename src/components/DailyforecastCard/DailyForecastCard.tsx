@@ -25,7 +25,8 @@ export default function DailyForecastCard({ dailyData, i }: DailyForecastCardPro
       <h3 className="font-dm-sans text-dm-sans-preset-6 text-white">
         {format(new Date(dailyData.time), 'EEE')}
       </h3>
-      <img
+      <motion.img
+        animate={{ scale: [1, 0.9, 1], transition: { duration: 5, repeat: Infinity } }}
         className="size-[60px]"
         src={getWeatherIcon(dailyData.weather_code)}
         alt={getWeatherDescription(dailyData.weather_code)}

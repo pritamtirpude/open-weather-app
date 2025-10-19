@@ -33,9 +33,9 @@ export const fetchWeatherData = async (
       latitude,
       longitude,
       current:
-        'weather_code,precipitation,wind_speed_10m,relative_humidity_2m,apparent_temperature,temperature_2m',
+        'weather_code,precipitation,wind_speed_10m,relative_humidity_2m,apparent_temperature,temperature_2m,cloud_cover,uv_index,visibility,surface_pressure,is_day',
       hourly: 'temperature_2m,weather_code',
-      daily: 'temperature_2m_max,temperature_2m_min,weather_code',
+      daily: 'temperature_2m_max,temperature_2m_min,weather_code,uv_index_max,sunrise,sunset',
       timezone,
       temperature_unit: temperatureUnit,
       wind_speed_unit: windSpeedUnit,
