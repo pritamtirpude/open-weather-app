@@ -48,6 +48,11 @@ export type WeatherApiResponse = {
     relative_humidity_2m: string;
     apparent_temperature: string;
     temperature_2m: string;
+    uv_index: string;
+    visibility: string;
+    surface_pressure: string;
+    cloud_cover: string;
+    is_day: string;
   };
 
   current: {
@@ -59,6 +64,11 @@ export type WeatherApiResponse = {
     relative_humidity_2m: number;
     apparent_temperature: number;
     temperature_2m: number;
+    surface_pressure: number;
+    uv_index: number;
+    visibility: number;
+    cloud_cover: number;
+    is_day: number;
   };
 
   hourly_units?: {

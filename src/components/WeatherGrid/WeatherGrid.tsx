@@ -10,6 +10,7 @@ import {
 } from '../../components';
 import { useFilterStore } from '../../store/filterStore';
 import { useSearchStore } from '../../store/searchStore';
+import { cn } from '../../utils';
 import { getWeatherDescription, getWeatherIcon } from '../../utils/weatherIcons';
 
 type WeatherGridProps = {
@@ -72,7 +73,14 @@ export default function WeatherGrid({ isLoading, weatherData }: WeatherGridProps
       className="mt-8 grid grid-cols-3 gap-8 lg:mt-12"
     >
       <div className="col-span-full lg:col-span-2">
-        <div className="flex h-[286px] flex-col items-center justify-center gap-4 rounded-[20px] bg-[url(/assets/images/bg-today-small.svg)] bg-cover bg-center bg-no-repeat px-6 py-10 md:flex-row md:justify-between md:gap-0 md:bg-[url(/assets/images/bg-today-large.svg)] md:px-6 md:py-0">
+        <div
+          className={cn(
+            'md:animate-bg-drift animate-bg-drift-y flex h-[286px] flex-col items-center justify-center gap-4 rounded-[20px] bg-cover bg-center bg-no-repeat px-6 py-10 md:flex-row md:justify-between md:gap-0 md:px-6 md:py-0',
+            weatherData?.current?.is_day === 1
+              ? 'bg-[url(/assets/images/bg-today-small.svg)] md:bg-[url(/assets/images/bg-today-large.svg)]'
+              : 'bg-[url(/assets/images/bg-night-small.svg)] md:bg-[url(/assets/images/bg-night-large.svg)]',
+          )}
+        >
           <div className="flex flex-col items-center justify-center md:items-start md:justify-start">
             {selectedLocation ? (
               <h1 className="font-dm-sans text-dm-sans-preset-3 text-white">
@@ -88,38 +96,67 @@ export default function WeatherGrid({ isLoading, weatherData }: WeatherGridProps
             </span>
           </div>
           <div className="flex w-[294px] items-center gap-5">
-            <img
+            <motion.img
+              animate={{ scale: [1, 0.9, 1], transition: { duration: 5, repeat: Infinity } }}
               src={getWeatherIcon(weatherData?.current?.weather_code || 0)}
               className="size-[120px]"
               alt={getWeatherDescription(weatherData?.current?.weather_code || 0)}
             />
-            <span className="font-dm-sans text-dm-sans-preset-1 text-white italic">
-              {Math.round(weatherData?.current?.temperature_2m ?? 0)}°
-            </span>
+            <div>
+              <span className="font-dm-sans text-dm-sans-preset-1 text-white italic">
+                {Math.round(weatherData?.current?.temperature_2m ?? 0)}°
+              </span>
+            </div>
           </div>
         </div>
       </div>
       <div className="col-span-full grid size-full grid-cols-2 gap-6 md:grid-cols-4 lg:col-span-2">
         <CurrentWeatherCard
           title="Feels Like"
-          currentTemperature={`${Math.round(weatherData?.current?.apparent_temperature ?? 0)}°`}
+          currentTemperature={Math.round(weatherData?.current?.apparent_temperature ?? 0)}
+          currentUnit={weatherData?.current_units?.apparent_temperature?.replace('°C', '°')}
         />
 
         <CurrentWeatherCard
           title="Humidity"
-          currentTemperature={`${weatherData?.current?.relative_humidity_2m ?? 0}%`}
+          currentTemperature={weatherData?.current?.relative_humidity_2m ?? 0}
+          currentUnit={weatherData?.current_units?.relative_humidity_2m}
         />
 
         <CurrentWeatherCard
           title="Wind"
-          currentTemperature={`${Math.round(weatherData?.current?.wind_speed_10m ?? 0)}`}
+          currentTemperature={Math.round(weatherData?.current?.wind_speed_10m ?? 0)}
           currentUnit={weatherData?.current_units?.wind_speed_10m?.replace('/', '')}
         />
 
         <CurrentWeatherCard
           title="Precipitation"
-          currentTemperature={`${weatherData?.current?.precipitation ?? 0}`}
+          currentTemperature={weatherData?.current?.precipitation ?? 0}
           currentUnit={weatherData?.current_units?.precipitation?.replace('inch', 'in')}
+        />
+
+        <CurrentWeatherCard
+          title="UV Index"
+          currentTemperature={Math.round(weatherData?.current?.uv_index)}
+          currentUnit={weatherData?.current_units?.uv_index}
+        />
+
+        <CurrentWeatherCard
+          title="Visibility"
+          currentTemperature={Number((weatherData?.current?.visibility / 1000).toFixed(2))}
+          currentUnit={weatherData?.current_units?.visibility}
+        />
+
+        <CurrentWeatherCard
+          title="Air Pressure"
+          currentTemperature={Math.round(weatherData?.current?.surface_pressure)}
+          currentUnit={weatherData?.current_units?.surface_pressure}
+        />
+
+        <CurrentWeatherCard
+          title="Cloud Cover"
+          currentTemperature={Math.round(weatherData?.current?.cloud_cover)}
+          currentUnit={weatherData?.current_units?.cloud_cover}
         />
       </div>
       <div className="col-span-full col-start-1 place-content-end lg:col-span-2">
@@ -138,7 +175,7 @@ export default function WeatherGrid({ isLoading, weatherData }: WeatherGridProps
           <WeekDayDropdown />
         </div>
 
-        <div className="scrollbar-hide mt-4 flex h-[620px] flex-col gap-4 overflow-y-auto">
+        <div className="scrollbar-hide mt-4 flex h-[680px] flex-col gap-4 overflow-y-auto">
           {filteredHourlyForecast?.map((hour: HourlyForecast, index: number) => (
             <HourlyCard key={hour.time} hour={hour} i={index} />
           ))}

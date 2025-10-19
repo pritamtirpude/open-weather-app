@@ -17,7 +17,7 @@ type FavoriteModalProps = {
 export default function FavoriteModal({ setIsFavoritesOpen }: FavoriteModalProps) {
   const { setParams } = useWeatherParams();
 
-  const { setSelectedLocation } = useSearchStore();
+  const { setSelectedLocation, clearResults, setSearchInput } = useSearchStore();
 
   const searchMutation = useMutation({
     mutationFn: fetchSearch,
@@ -102,6 +102,8 @@ export default function FavoriteModal({ setIsFavoritesOpen }: FavoriteModalProps
                     });
                     searchMutation.mutate(favorite.name);
                     setIsFavoritesOpen(false);
+                    setSearchInput('');
+                    clearResults();
                   }}
                   key={favorite.id}
                   className="bg-weather-700 hover:bg-weather-600 flex cursor-pointer items-center justify-between gap-3 rounded-lg px-2 py-2.5 transition-all duration-150"
@@ -134,7 +136,7 @@ export default function FavoriteModal({ setIsFavoritesOpen }: FavoriteModalProps
                 </motion.li>
               ))
             ) : (
-              <li className="flex items-center justify-center">
+              <li className="flex size-full items-center justify-center">
                 <span className="font-dm-sans text-dm-sans-preset-4 text-white">
                   No favorites added
                 </span>
